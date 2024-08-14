@@ -1,5 +1,7 @@
 ﻿using AspNetCore.Data;
 using AspNetCore.Filters;
+using BasicCrudOperation.Authorizations;
+using BasicCrudOperation.Enums;
 using BasicCrudOperation.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -34,6 +36,7 @@ namespace AspNetCore.Controllers
 		}
 		[HttpGet]
 		[Route("/GetAllProducts")]
+		[CheckPermission(Permission.ReadProducts)]
 		public ActionResult<IEnumerable<Product>> GetAllProducts()
 		{
 			var userName = User.Identity.Name;
@@ -44,7 +47,7 @@ namespace AspNetCore.Controllers
 
 		[HttpGet]
 		[Route("{id}")]
-		[AllowAnonymous]
+		[CheckPermission(Permission.ReadProducts)]
 		[LogSensitiveAction]
 		public ActionResult<Product> GetProductById(int id)
 		{

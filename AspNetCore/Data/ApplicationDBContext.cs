@@ -10,6 +10,9 @@ namespace AspNetCore.Data
 		{
 			base.OnModelCreating(modelBuilder);
 			modelBuilder.Entity<Product>().ToTable("Products");
+			modelBuilder.Entity<Users>().ToTable("Users");
+			modelBuilder.Entity<UserPermissions>().ToTable("UserPermissions")
+				.HasKey(x=>new { x.UserId,x.PermissionId});
 		}
 	}
 }

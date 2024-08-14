@@ -2,6 +2,7 @@ using AspNetCore.Authentication;
 using AspNetCore.Data;
 using AspNetCore.Filters;
 using AspNetCore.MiddleWare;
+using BasicCrudOperation.Authorizations;
 using BasicCrudOperation.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -32,7 +33,8 @@ builder.Services.Configure<AttachmentOptions>(builder.Configuration.GetSection("
 builder.Services.AddControllers(options =>
 {
 	//Global Filter
-	options.Filters.Add<logActivityFilter>(); 
+	options.Filters.Add<logActivityFilter>();
+	options.Filters.Add<PermissionBasedAuthorizationFilter>();
 });
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
