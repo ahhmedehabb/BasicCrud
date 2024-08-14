@@ -1,5 +1,6 @@
 ﻿using AspNetCore.Data;
 using AspNetCore.Filters;
+using BasicCrudOperation.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Metadata.Conventions;

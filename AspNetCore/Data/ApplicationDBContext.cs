@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using BasicCrudOperation.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace AspNetCore.Data
 {

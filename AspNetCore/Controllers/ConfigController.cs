@@ -1,10 +1,11 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using BasicCrudOperation.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 
 namespace AspNetCore.Controllers
 {
-	[Route("api/[controller]")]
+    [Route("api/[controller]")]
 	[ApiController]
 	public class ConfigController : ControllerBase
 	{

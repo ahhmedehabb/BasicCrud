@@ -1,10 +1,13 @@
-using AspNetCore;
 using AspNetCore.Authentication;
 using AspNetCore.Data;
 using AspNetCore.Filters;
 using AspNetCore.MiddleWare;
+using BasicCrudOperation.Models;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -35,8 +38,23 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<ApplicationDBContext>(cfg => cfg.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-
-builder.Services.AddAuthentication().AddScheme<AuthenticationSchemeOptions,BasicAuthenticationHandler>("Basic",null);
+var jwtOptions = builder.Configuration.GetSection("Jwt").Get<JwtOptions>();
+builder.Services.AddSingleton(jwtOptions);
+builder.Services.AddAuthentication()
+	.AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
+	{
+		options.SaveToken = true;
+		options.TokenValidationParameters = new TokenValidationParameters
+		{
+			ValidateIssuer = true,
+			ValidIssuer = jwtOptions.Issuer,
+			ValidateAudience = true,
+			ValidAudience = jwtOptions.Audience,
+			ValidateIssuerSigningKey = true,
+			IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtOptions.SigningKey))
+		};
+	});
+	//.AddScheme<AuthenticationSchemeOptions,BasicAuthenticationHandler>("Basic",null);
 
 var app = builder.Build();
 
