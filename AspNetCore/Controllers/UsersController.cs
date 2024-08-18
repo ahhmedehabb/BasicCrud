@@ -29,7 +29,10 @@ namespace BasicCrudOperation.Controllers
 				Subject = new ClaimsIdentity(new Claim[]
 				{
 					new(ClaimTypes.NameIdentifier,user.ID.ToString()),
-					new(ClaimTypes.NameIdentifier,user.Name)
+					new(ClaimTypes.NameIdentifier,user.Name),
+					new(ClaimTypes.Role,"Admin"),
+					new("UserType","Employee"),
+					new("DateOfBirth","2005-01-01")
 				})
 			};
 			var securityToken = TokenHandler.CreateToken(tokenDescriptor);

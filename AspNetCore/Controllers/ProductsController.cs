@@ -36,9 +36,12 @@ namespace AspNetCore.Controllers
 		}
 		[HttpGet]
 		[Route("/GetAllProducts")]
-		[CheckPermission(Permission.ReadProducts)]
+		//[CheckPermission(Permission.ReadProducts)]  - Permission-Based
+		//[Authorize(Roles = "Admin")] - Role-Based
+		[Authorize(Policy = "AgeGreaterThan25")] //- Policy-Based
 		public ActionResult<IEnumerable<Product>> GetAllProducts()
 		{
+			var isAdmin = User.IsInRole("Admin");
 			var userName = User.Identity.Name;
 			var userID=((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.NameIdentifier)?.Value;
 			var records = _dbContext.Set<Product>().ToList();
@@ -47,7 +50,7 @@ namespace AspNetCore.Controllers
 
 		[HttpGet]
 		[Route("{id}")]
-		[CheckPermission(Permission.ReadProducts)]
+		//[CheckPermission(Permission.ReadProducts)]
 		[LogSensitiveAction]
 		public ActionResult<Product> GetProductById(int id)
 		{
